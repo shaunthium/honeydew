@@ -11,12 +11,12 @@ import (
 
 const (
 	// Job types
-	NetappJobTypeClone = "clone"
+	NetAppJobTypeClone = "clone"
 )
 
 func getUrl(jobType string) string {
-	url := secrets.GetValueFromSecrets(secrets.NetappBaseURL)
-	authKey := secrets.GetValueFromSecrets(secrets.NetappKey)
+	url := secrets.GetValueFromSecrets(secrets.NetAppBaseURL)
+	authKey := secrets.GetValueFromSecrets(secrets.NetAppKey)
 	return url + authKey + "/jobs/" + jobType
 }
 
@@ -26,7 +26,7 @@ func Setup(newVolumeName string) error {
 	data := []byte(`
     {"volume_clone_name": "` + newVolumeName + `"}
 	`)
-	req, err := http.NewRequest("POST", getUrl(NetappJobTypeClone), bytes.NewBuffer(data))
+	req, err := http.NewRequest("POST", getUrl(NetAppJobTypeClone), bytes.NewBuffer(data))
 	if err != nil {
 		return err
 	}

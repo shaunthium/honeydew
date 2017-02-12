@@ -11,8 +11,8 @@ const (
 	InstanceUsername  = "instance_username"
 
 	// Setup
-	NetappBaseURL = "netapp_base_url"
-	NetappKey     = "netapp_key"
+	NetAppBaseURL = "netapp_base_url"
+	NetAppKey     = "netapp_key"
 
 	PemFilePath = "pem_file_path"
 
