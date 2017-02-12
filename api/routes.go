@@ -24,4 +24,10 @@ var routes = Routes{
 		"/deploy",
 		Deploy,
 	},
+	Route{
+		"Undeploy",
+		"POST",
+		"/undeploy",
+		Undeploy,
+	},
 }
