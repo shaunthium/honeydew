@@ -10,7 +10,7 @@ var newVolumeName string
 func init() {
 	RootCmd.AddCommand(setupCmd)
 
-	setupCmd.Flags().StringVar(&newVolumeName, "volume_name", "new-volume", "New volume name")
+	setupCmd.Flags().StringVar(&newVolumeName, "volume_name", "", "New volume name")
 }
 
 var setupCmd = &cobra.Command{

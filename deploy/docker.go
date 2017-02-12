@@ -1,9 +1,13 @@
 package deploy
 
-import "os/exec"
+import (
+	"fmt"
+	"os/exec"
+)
 
 func BuildImage(imageTagName string) error {
 	cmd := exec.Command("docker", "build", "-t", imageTagName, ".")
+	fmt.Println("Building image: " + imageTagName)
 	if err := cmd.Run(); err != nil {
 		return err
 	}
@@ -11,6 +15,7 @@ func BuildImage(imageTagName string) error {
 }
 
 func PushImage(imageTagName string) error {
+	fmt.Println("Pushing image: " + imageTagName)
 	cmd := exec.Command("docker", "push", imageTagName)
 	if err := cmd.Run(); err != nil {
 		return err
@@ -18,7 +23,6 @@ func PushImage(imageTagName string) error {
 	return nil
 }
 
-//
 // func BuildImage() error {
 // 	cwd, err := os.Getwd()
 // 	if err != nil {

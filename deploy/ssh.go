@@ -133,7 +133,7 @@ func SSHAgent() ssh.AuthMethod {
 	return nil
 }
 
-func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory string) error {
+func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory, imageTagName, instanceHostname string) error {
 	// ssh.Password("your_password")
 	sshConfig := &ssh.ClientConfig{
 		User: secrets.GetValueFromSecrets(secrets.InstanceUsername),
@@ -144,20 +144,41 @@ func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory string)
 
 	client := &SSHClient{
 		Config: sshConfig,
-		Host:   secrets.GetValueFromSecrets(secrets.Instance1Hostname),
+		Host:   instanceHostname,
 		Port:   22,
 	}
 
-	cmd := &SSHCommand{
+	mountCmd := &SSHCommand{
 		Path:   "sudo mount " + volumeMountHostname + ":/" + volumeName + " " + targetDirectory,
 		Stdin:  os.Stdin,
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
 	}
 
-	fmt.Printf("Running command: %s\n", cmd.Path)
-	if err := client.RunCommand(cmd); err != nil {
-		return fmt.Errorf("command run error: %s\n", err)
+	dockerPullCmd := &SSHCommand{
+		Path:   "sudo docker pull " + imageTagName,
+		Stdin:  os.Stdin,
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+
+	dockerRunCmd := &SSHCommand{
+		Path:   "sudo docker run " + imageTagName,
+		Stdin:  os.Stdin,
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+
+	cmds := []*SSHCommand{}
+	cmds = append(cmds, mountCmd)
+	cmds = append(cmds, dockerPullCmd)
+	cmds = append(cmds, dockerRunCmd)
+
+	for _, cmd := range cmds {
+		fmt.Printf("Running command on host "+instanceHostname+": %s\n", cmd.Path)
+		if err := client.RunCommand(cmd); err != nil {
+			return fmt.Errorf("Command run error: %s\n", err)
+		}
 	}
 	return nil
 }

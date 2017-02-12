@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/tls"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 
 	"github.com/shaunthium/honeydew/secrets"
@@ -22,14 +21,14 @@ func getUrl(jobType string) string {
 }
 
 func Setup(newVolumeName string) error {
-	fmt.Println("in setup")
+	fmt.Println("Cloning volume with new name: " + newVolumeName)
 
 	data := []byte(`
     {"volume_clone_name": "` + newVolumeName + `"}
 	`)
 	req, err := http.NewRequest("POST", getUrl(NetappJobTypeClone), bytes.NewBuffer(data))
 	if err != nil {
-		panic(err)
+		return err
 	}
 	req.Header.Add("authorization", "Basic YWRtaW46UGFzc3dvcmRAMTIz")
 	req.Header.Add("accept", "application/json")
@@ -42,14 +41,14 @@ func Setup(newVolumeName string) error {
 	client := &http.Client{Transport: tr}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer resp.Body.Close()
-
-	fmt.Println("response Status:", resp.Status)
-	fmt.Println("response Headers:", resp.Header)
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("response Body:", string(body))
-
+	fmt.Println("NetApp Response Status:", resp.Status)
+	fmt.Println("NetApp Response Headers:")
+	for k, v := range resp.Header {
+		fmt.Printf(k + ": ")
+		fmt.Printf("%v\n", v)
+	}
 	return nil
 }
