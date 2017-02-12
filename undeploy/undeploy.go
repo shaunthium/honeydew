@@ -11,19 +11,19 @@ func Undeploy(targetDirectory, instanceHostname string) error {
 }
 
 func undeployFromServer(targetDirectory, instanceHostname string) error {
-	dockerKillCmd := &ssh.SSHCommand{
-		Path:   "sudo docker kill $(sudo docker ps -q)",
-		Stdin:  os.Stdin,
-		Stdout: os.Stdout,
-		Stderr: os.Stderr,
-	}
 	unmountCmd := &ssh.SSHCommand{
 		Path:   "sudo umount " + targetDirectory,
 		Stdin:  os.Stdin,
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
 	}
-	cmds := []*ssh.SSHCommand{dockerKillCmd, unmountCmd}
+	dockerKillCmd := &ssh.SSHCommand{
+		Path:   "sudo docker kill $(sudo docker ps -q)",
+		Stdin:  os.Stdin,
+		Stdout: os.Stdout,
+		Stderr: os.Stderr,
+	}
+	cmds := []*ssh.SSHCommand{unmountCmd, dockerKillCmd}
 
 	return ssh.RunCommandsInServer(instanceHostname, cmds)
 }
