@@ -62,8 +62,9 @@ func Deploy(w http.ResponseWriter, r *http.Request) {
 	targetDirectory := getValueFromData(data, "target_directory")
 	imageTagName := getValueFromData(data, "image_tag_name")
 	instanceHostname := getValueFromData(data, "instance_hostname")
+	dockerVolumeName := getValueFromData(data, "docker_volume_name")
 
-	if err := deploy.Deploy(volumeMountHostname, volumeName, targetDirectory, imageTagName, instanceHostname, true); err != nil {
+	if err := deploy.Deploy(volumeMountHostname, volumeName, targetDirectory, imageTagName, instanceHostname, dockerVolumeName, true); err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(500) // unprocessable entity
 		panic(err)
@@ -88,8 +89,9 @@ func Undeploy(w http.ResponseWriter, r *http.Request) {
 	}
 	targetDirectory := getValueFromData(data, "target_directory")
 	instanceHostname := getValueFromData(data, "instance_hostname")
+	dockerVolumeName := getValueFromData(data, "docker_volume_name")
 
-	if err := undeploy.Undeploy(targetDirectory, instanceHostname); err != nil {
+	if err := undeploy.Undeploy(targetDirectory, instanceHostname, dockerVolumeName); err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(500) // unprocessable entity
 		panic(err)

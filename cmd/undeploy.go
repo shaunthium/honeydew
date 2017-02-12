@@ -11,6 +11,7 @@ func init() {
 
 	undeployCmd.Flags().StringVar(&targetDirectory, "target_directory", "", "Name of the target directory to unmount the volume from")
 	undeployCmd.Flags().StringVar(&instanceHostname, "instance_hostname", "", "Hostname of instance to undeploy from")
+	undeployCmd.Flags().StringVar(&dockerVolumeName, "docker_volume_name", "", "Name of Docker volume to mount")
 }
 
 var undeployCmd = &cobra.Command{
@@ -18,6 +19,6 @@ var undeployCmd = &cobra.Command{
 	Short: "Undeploys your app from your selected environment",
 	Long:  "Undeploys your app from your selected environment",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return undeploy.Undeploy(targetDirectory, instanceHostname)
+		return undeploy.Undeploy(targetDirectory, instanceHostname, dockerVolumeName)
 	},
 }

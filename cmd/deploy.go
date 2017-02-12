@@ -11,6 +11,7 @@ var volumeName string
 var targetDirectory string
 var imageTagName string
 var instanceHostname string
+var dockerVolumeName string
 var isApi bool
 
 func init() {
@@ -21,6 +22,8 @@ func init() {
 	deployCmd.Flags().StringVar(&targetDirectory, "target_directory", "", "Name of the target directory to mount the volume into")
 	deployCmd.Flags().StringVar(&imageTagName, "image_tag_name", "", "Tag name of the built container")
 	deployCmd.Flags().StringVar(&instanceHostname, "instance_hostname", "", "Hostname of instance to deploy to")
+	deployCmd.Flags().StringVar(&dockerVolumeName, "docker_volume_name", "", "Name of Docker volume to mount")
+
 	deployCmd.Flags().BoolVar(&isApi, "is_api", false, "Determines if honeydew is running in API mode")
 }
 
@@ -29,6 +32,6 @@ var deployCmd = &cobra.Command{
 	Short: "Deploys your app to your selected environment",
 	Long:  "Deploys your app to your selected environment",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return deploy.Deploy(volumeMountHostname, volumeName, targetDirectory, imageTagName, instanceHostname, isApi)
+		return deploy.Deploy(volumeMountHostname, volumeName, targetDirectory, imageTagName, instanceHostname, dockerVolumeName, isApi)
 	},
 }
