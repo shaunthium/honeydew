@@ -1,13 +1,9 @@
 package deploy
 
-import (
-	"fmt"
-
-	"github.com/shaunthium/honeydew/ssh"
-)
+import "fmt"
 
 func Deploy(volumeMountHostname, volumeName, targetDirectory string) error {
 	fmt.Println("in deploy")
-	ssh.RunCommandInServer(volumeMountHostname, volumeName, targetDirectory)
+	RunCommandInServer(volumeMountHostname, volumeName, targetDirectory)
 	return nil
 }
