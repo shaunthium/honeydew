@@ -7,8 +7,7 @@ import (
 )
 
 func Undeploy(targetDirectory, instanceHostname string) error {
-	undeployFromServer(targetDirectory, instanceHostname)
-	return nil
+	return undeployFromServer(targetDirectory, instanceHostname)
 }
 
 func undeployFromServer(targetDirectory, instanceHostname string) error {
