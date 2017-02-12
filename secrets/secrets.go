@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	// Deploy
-	Instance1Hostname = "instance_1_hostname"
-	InstanceUsername  = "instance_username"
-
 	// Setup
 	NetAppBaseURL = "netapp_base_url"
 	NetAppKey     = "netapp_key"
+
+	// Deploy
+	Instance1Hostname = "instance_1_hostname"
+	InstanceUsername  = "instance_username"
 
 	PemFilePath = "pem_file_path"
 
