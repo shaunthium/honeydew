@@ -133,7 +133,7 @@ func SSHAgent() ssh.AuthMethod {
 	return nil
 }
 
-func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory string) {
+func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory string) error {
 	// ssh.Password("your_password")
 	sshConfig := &ssh.ClientConfig{
 		User: secrets.GetValueFromSecrets(secrets.InstanceUsername),
@@ -157,7 +157,7 @@ func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory string)
 
 	fmt.Printf("Running command: %s\n", cmd.Path)
 	if err := client.RunCommand(cmd); err != nil {
-		fmt.Fprintf(os.Stderr, "command run error: %s\n", err)
-		os.Exit(1)
+		return fmt.Errorf("command run error: %s\n", err)
 	}
+	return nil
 }
