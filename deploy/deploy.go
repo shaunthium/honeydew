@@ -4,13 +4,17 @@ import (
 	"fmt"
 )
 
-func Deploy(volumeMountHostname, volumeName, targetDirectory string) error {
+func Deploy(volumeMountHostname, volumeName, targetDirectory, imageTagName string) error {
 	fmt.Println("in deploy")
-	if err := RunCommandInServer(volumeMountHostname, volumeName, targetDirectory); err != nil {
+
+	// Build image in current directory
+	if err := BuildImage(imageTagName); err != nil {
 		return err
 	}
-	// ListImages()
-	// if err := BuildImage(); err != nil {
+	if err := PushImage(imageTagName); err != nil {
+		return err
+	}
+	// if err := RunCommandInServer(volumeMountHostname, volumeName, targetDirectory); err != nil {
 	// 	return err
 	// }
 	return nil

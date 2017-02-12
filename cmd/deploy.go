@@ -9,6 +9,7 @@ import (
 var volumeMountHostname string
 var volumeName string
 var targetDirectory string
+var imageTagName string
 
 func init() {
 	RootCmd.AddCommand(deployCmd)
@@ -16,6 +17,7 @@ func init() {
 	deployCmd.Flags().StringVar(&volumeMountHostname, "volume_mount_hostname", "", "Hostname of the volume mount")
 	deployCmd.Flags().StringVar(&volumeName, "volume_name", "", "Name of the volume")
 	deployCmd.Flags().StringVar(&targetDirectory, "target_folder", "", "Name of the target folder to mount the volume into")
+	deployCmd.Flags().StringVar(&imageTagName, "image_tag_name", "", "Tag name of the built container")
 }
 
 var deployCmd = &cobra.Command{
@@ -23,6 +25,6 @@ var deployCmd = &cobra.Command{
 	Short: "Deploys your app to the production env",
 	Long:  "Deploys your app to the production env",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return deploy.Deploy(volumeMountHostname, volumeName, targetDirectory)
+		return deploy.Deploy(volumeMountHostname, volumeName, targetDirectory, imageTagName)
 	},
 }
