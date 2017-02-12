@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+// This package modified from https://github.com/corylanou/tns-restful-json-api/
+
 func RunServer() {
 	router := NewRouter()
 
