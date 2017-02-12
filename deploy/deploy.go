@@ -6,8 +6,8 @@ import (
 	"github.com/shaunthium/honeydew/ssh"
 )
 
-func Deploy() error {
+func Deploy(volumeMountHostname, volumeName, targetDirectory string) error {
 	fmt.Println("in deploy")
-	ssh.SSHIntoServer()
+	ssh.RunCommandInServer(volumeMountHostname, volumeName, targetDirectory)
 	return nil
 }

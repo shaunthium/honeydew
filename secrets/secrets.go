@@ -6,11 +6,11 @@ import (
 )
 
 const (
-	// Setup
-	InstanceHostname = "instance_hostname"
-	InstanceUsername = "instance_username"
-
 	// Deploy
+	Instance1Hostname = "instance_1_hostname"
+	InstanceUsername  = "instance_username"
+
+	// Setup
 	NetappBaseURL = "netapp_base_url"
 	NetappKey     = "netapp_key"
 

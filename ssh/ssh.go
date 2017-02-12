@@ -1,4 +1,3 @@
-// Modified from https://gist.github.com/svett/b7f56afc966a6b6ac2fc
 package ssh
 
 import (
@@ -14,6 +13,8 @@ import (
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 )
+
+// Modified from https://gist.github.com/svett/b7f56afc966a6b6ac2fc
 
 type SSHCommand struct {
 	Path   string
@@ -132,7 +133,7 @@ func SSHAgent() ssh.AuthMethod {
 	return nil
 }
 
-func SSHIntoServer() {
+func RunCommandInServer(volumeMountHostname, volumeName, targetDirectory string) {
 	// ssh.Password("your_password")
 	sshConfig := &ssh.ClientConfig{
 		User: secrets.GetValueFromSecrets(secrets.InstanceUsername),
@@ -143,12 +144,12 @@ func SSHIntoServer() {
 
 	client := &SSHClient{
 		Config: sshConfig,
-		Host:   secrets.GetValueFromSecrets(secrets.InstanceHostname),
+		Host:   secrets.GetValueFromSecrets(secrets.Instance1Hostname),
 		Port:   22,
 	}
 
 	cmd := &SSHCommand{
-		Path:   "sudo mount 10.10.11.89:/Team_Honeydew testing",
+		Path:   "sudo mount " + volumeMountHostname + ":/" + volumeName + " " + targetDirectory,
 		Stdin:  os.Stdin,
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
