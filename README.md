@@ -10,4 +10,4 @@ Features:
 - Do all the above with single-touch, "one-click" commands
 
 NOTE: Secrets are not stored in the repo. To run `honeydew`, create a `secrets.json` file with the following keys:
-`netapp_base_url`, `netapp_key`, `instance_username` and `pem_file_path`.
+`netapp_base_url`, `netapp_key`, `instance_username` and `pem_file_path`, and set the path to the file as an environment variable with the key of `SECRETS_PATH`.
