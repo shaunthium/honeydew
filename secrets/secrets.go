@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 )
 
 const (
@@ -19,12 +18,7 @@ const (
 )
 
 func GetValueFromSecrets(key string) string {
-	cwd, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-	// Assume that secrets are placed in the same "secrets" package
-	secretsPath := filepath.Join(cwd, "secrets", "secrets.json")
+	secretsPath := os.Getenv("SECRETS_PATH")
 	secrets, _ := ioutil.ReadFile(secretsPath)
 	data := make(map[string]string)
 	json.Unmarshal(secrets, &data)
